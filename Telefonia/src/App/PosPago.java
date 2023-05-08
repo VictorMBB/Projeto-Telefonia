@@ -11,23 +11,20 @@ public class PosPago extends Assinante {
 
 		super(cpf, nome, numero);
 		this.assinatura = assinatura;
-		int qtdChamadas = (int) (assinatura / 1.04f);
-		this.chamadas = new Chamada[qtdChamadas];
 	}
 
 	public void fazerChamada(GregorianCalendar data, int duracao) {
 		// Checa se há espaço no vetor de chamadas
 		if (this.numChamadas == this.chamadas.length) {
 			System.out.println("Não é possível realizar novas chamadas!");
+		} else {
+
+			// Cria o objeto do tipo Chamada na posição numChamadas no vetor chamadas
+			this.chamadas[this.numChamadas] = new Chamada(data, duracao);
+			this.numChamadas += 1; // Atualiza numChamadas
+			
 		}
-		// Procura uma posição vazia no vetor chamadas para inserir uma nova chamada
-		for (int i = 0; i < this.chamadas.length; i++) {
-			if (this.chamadas[i] == null) {
-				this.chamadas[i] = new Chamada(data, duracao);
-				this.numChamadas += 1; // Atualiza numChamadas
-				break;
-			}
-		}
+
 	}
 
 	public void imprimirFatura(int mes) {
@@ -38,16 +35,15 @@ public class PosPago extends Assinante {
 
 		// Checando existência de chamadas e calculando o valor das chamadas e total
 		// fatura
-		for (int i = 0; i < chamadas.length; i++) {
+		for (int i = 0; i < this.numChamadas; i++) {
 
-			if (chamadas[i] != null) {
-				if (chamadas[i].getData().get(Calendar.MONTH) == mes) {// Comparando o mes inserido
-					System.out.print(chamadas[i].toString());
-					valorChamada = chamadas[i].getDuracao() * 1.04f;
-					totalFatura += valorChamada;
-					System.out.println(" Custo: R$ " + String.format("%.2f", valorChamada));
-				}
+			if (chamadas[i].getData().get(Calendar.MONTH) == mes) {// Comparando o mes inserido
+				System.out.print(chamadas[i].toString());
+				valorChamada = chamadas[i].getDuracao() * 1.04f;
+				totalFatura += valorChamada;
+				System.out.println(" Custo: R$ " + String.format("%.2f", valorChamada));
 			}
+			
 		}
 
 		if(totalFatura > assinatura){

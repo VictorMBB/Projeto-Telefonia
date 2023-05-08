@@ -10,7 +10,6 @@ public class PrePago extends Assinante {
 
 	public PrePago(long cpf, String nome, int numero) {
 		super(cpf, nome, numero);
-		this.chamadas = new Chamada[10];
 		this.numRecargas = 0;
 		this.recargas = new Recarga[10];//iniciei o array com dez espaços de inicio mas podemos alterar depois
 	}
@@ -18,28 +17,18 @@ public class PrePago extends Assinante {
 
 	public void fazerChamada(GregorianCalendar data, int duracao) {
 
-		//caso todos espaços do array estejam preechidos(sem credito)
+		//esta condição verifica se há créditos disponiveis ou espaço no vetor de chamadas para executar a chamada
 		if(numChamadas == chamadas.length || creditos <= 0) {
-			//esta condição verifica se há créditos disponiveis ou espaço no vetor de chamadas para executar a chamada
 
 			System.out.println("Não é possível completar esta ligação!");
 		} else {
-			//do contrário passamos para o laço for que percorre o array a procura de créditos
+			//do contrário passamos para a posição numChamadas do array
 			
-			for(int i = 0; i < this.chamadas.length; i++)
-			{
-				//ele procura créditos
-				if (this.chamadas[i] == null)//caso o array tenha espaço
-				{
-					//quando acha creditos ele atualiza os dados
-					this.chamadas[i] = new Chamada(data,duracao); //chamada recebe a data e a duração passadas pelo usuário
-					this.numChamadas += 1; //numChamadas aumenta +1
-					this.creditos -= (float)duracao * 1.45f; //aqui ele atualiza o valor de crédito cobrando de acordo com a duração da chamada(fiz o casting para float porque o valor provido é double porém o requerido é float
-					break;
-				}
-			}
+			this.chamadas[numChamadas] = new Chamada(data,duracao);//chamada recebe a data e a duração passadas pelo usuário
+			this.numChamadas += 1; //numChamadas aumenta +1
+			this.creditos -= (float)duracao * 1.45f; //aqui ele atualiza o valor de crédito cobrando de acordo com a duração da chamada(fiz o casting para float porque o valor provido é double porém o requerido é float
+			
 		}
-
 	}
 
 	public void recarregar(GregorianCalendar data, float valor) {
@@ -48,18 +37,12 @@ public class PrePago extends Assinante {
 		if(numRecargas == recargas.length){
 			
 			System.out.println("Não é possível fazer mais recargas!");
-		}
+		} else {
 
-		//o laço percorre o array para fazer a nova recarga
-		for (int i = 0; i < recargas.length; i++) {
-			
-			if (recargas[i] == null)
-			{
-				recargas[i] = new Recarga(data,valor);//novo objeto Recarga na posição vazia do vetor recargas
-				numRecargas++;//Atualizar numRecarga
-				creditos += valor;//Atualizar creditos
-				break;
-			}	
+			//vamos para a posição numRecargas do array para fazer a nova recarga
+			recargas[numRecargas] = new Recarga(data,valor);//novo objeto Recarga na posição vazia do vetor recargas
+			numRecargas++;//Atualizar numRecarga
+			creditos += valor;//Atualizar creditos
 		}
 
 	}
@@ -73,30 +56,28 @@ public class PrePago extends Assinante {
 		System.out.println(this.toString());
 		
 		// laço for que percorre o array de chamadas do assinante e calcula o total de chamadas realizadas no mês
-		for (int i = 0; i < this.chamadas.length; i++) {
+		for (int i = 0; i < numChamadas; i++) {
 			// verifica se há alguma chamada realizada no mês desejado
-			if(chamadas[i] != null){
-
-				if (chamadas[i].getData().get(GregorianCalendar.MONTH) == mes) {
-					System.out.print(chamadas[i].toString());//imprime data e duração de cada chamada
-					valorChamada = (float)chamadas[i].getDuracao() * 1.45f;
-					System.out.println(" Custo: R$ "+ String.format("%.2f", valorChamada));//imprime valor de cada chamada						
-					totalChamadas += (float)chamadas[i].getDuracao() * 1.45f; // adiciona o valor da chamada ao total
-				}
+			if (chamadas[i].getData().get(GregorianCalendar.MONTH) == mes) {
+				
+				System.out.print(chamadas[i].toString());//imprime data e duração de cada chamada
+				valorChamada = (float)chamadas[i].getDuracao() * 1.45f;
+				System.out.println(" Custo: R$ "+ String.format("%.2f", valorChamada));//imprime valor de cada chamada						
+				totalChamadas += (float)chamadas[i].getDuracao() * 1.45f; // adiciona o valor da chamada ao total
+				
 			}
 		}
 
 		float totalRecargas = 0; // variável para armazenar o total de recargas do mês
 		
 		// laço for que percorre o array de recargas do assinante e calcula o total de recargas realizadas no mês
-		for (int i = 0; i < this.recargas.length; i++) {
+		for (int i = 0; i < numRecargas; i++) {
 			// verifica se a recarga foi realizada no mês desejado
 			Recarga recarga = recargas[i];
-			if(recarga != null){
-				if (recarga.getData().get(GregorianCalendar.MONTH) == mes) {
-					System.out.println(recarga.toString());
-					totalRecargas += recarga.getValor(); // adiciona o valor da recarga ao total
-				}
+			if (recarga.getData().get(GregorianCalendar.MONTH) == mes) {
+				System.out.println(recarga.toString());
+				totalRecargas += recarga.getValor(); // adiciona o valor da recarga ao total
+				
 			}
 		}
 		

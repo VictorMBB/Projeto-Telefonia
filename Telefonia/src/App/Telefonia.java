@@ -14,9 +14,9 @@ public class Telefonia {
 
 	public Telefonia() {
 		numPrePagos = 0;
-		prePagos = new PrePago[20];
+		prePagos = new PrePago[10];
 		numPosPagos = 0;
-		posPagos = new PosPago[20];
+		posPagos = new PosPago[10];
 	}
 
 	public void cadastrarAssinante() {
@@ -41,15 +41,17 @@ public class Telefonia {
 			System.out.println("Digite o valor da assinatura: ");
 			float inputAssinatura = input.nextFloat();
 
-			for (int i = 0; i < posPagos.length; i++) {
-				if (posPagos[i] == null) {
-					this.posPagos[i] = new PosPago(inputCpf, inputNome, inputNumero, inputAssinatura);
-					numPosPagos += 1;
-					break;
-				}
+			if(localizarPosPago(inputCpf) != null){
+				System.out.println("Este CPF já está cadastrado com um número!");
+			} else {
+
+				this.posPagos[numPosPagos] = new PosPago(inputCpf, inputNome, inputNumero, inputAssinatura);
+				numPosPagos += 1;
+
 			}
 
 		}
+
 		if (plano == 2) {
 			System.out.println("Digite o CPF: ");
 			long inputCpf = input.nextLong();
@@ -61,12 +63,13 @@ public class Telefonia {
 			System.out.println("Digite o numero desejado: ");
 			int inputNumero = input.nextInt();
 
-			for (int i = 0; i < prePagos.length; i++) {
-				if (prePagos[i] == null) {
-					this.prePagos[i] = new PrePago(inputCpf, inputNome, inputNumero);
-					numPrePagos += 1;
-					break;
-				}
+			if(localizarPrePago(inputCpf) != null){
+				System.out.println("Este CPF já está cadastrado com um número");
+			} else {
+
+				this.prePagos[numPrePagos] = new PrePago(inputCpf, inputNome, inputNumero);
+				numPrePagos += 1;
+				
 			}
 
 		}
@@ -136,7 +139,7 @@ public class Telefonia {
 	}
 
 	private PrePago localizarPrePago(long cpf) {
-		for (int i = 0; i < prePagos.length; i++) {
+		for (int i = 0; i < numPrePagos; i++) {
 				if (prePagos[i].getCpf() == cpf) {
 					return prePagos[i];
 				}
@@ -146,7 +149,7 @@ public class Telefonia {
 	}
 
 	private PosPago localizarPosPago(long cpf) {
-		for (int i = 0; i < posPagos.length; i++) {
+		for (int i = 0; i < numPosPagos; i++) {
 				if (posPagos[i].getCpf() == cpf) {
 					return posPagos[i];
 				}

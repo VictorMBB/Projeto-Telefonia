@@ -25,7 +25,7 @@ public class Chamada {
 	@Override
 	public String toString() {
 		SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-		return "Chamada [data=" + formato.format(data.getTime()) + ", duracao=" + duracao + "]";
+		return " Data da chamada= " + formato.format(data.getTime()) + ", duração= " + duracao + " ";
 	}
 
 }
