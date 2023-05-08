@@ -50,6 +50,11 @@ public class PosPago extends Assinante {
 			}
 		}
 
-		System.out.println("Total da fatura = R$ " + String.format("%.2f", totalFatura));
+		if(totalFatura > assinatura){
+			System.out.println("Total da fatura = R$ " + String.format("%.2f", totalFatura));
+		} else {
+			System.out.println("Total da fatura = R$ " + String.format("%.2f", assinatura));
+		}
+
 	}
 }

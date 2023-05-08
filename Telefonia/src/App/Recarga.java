@@ -6,19 +6,22 @@ import java.util.GregorianCalendar;
 public class Recarga {
 	private GregorianCalendar data;
 	private float valor;
-	public Recarga() {
 	
+	//Construtor de um objeto do tipo Recarga com os atributos data e valor 
+	public Recarga(GregorianCalendar data, float valor) {
+		this.data = data;
+		this.valor = valor;
 	}
 	public GregorianCalendar getData() {
-		return data;
+		return this.data;
 	}
 	public float getValor() {
-		return valor;
+		return this.valor;
 	}
 	
 	@Override
 	public String toString() {
 		SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-		return "Recarga [data=" + formato.format(data) + ", valor=" + valor + "]";
+		return "Recarga [data=" + formato.format(data.getTime()) + ", valor= R$ " + String.format("%.2f",valor) + "]";
 	}
 }
