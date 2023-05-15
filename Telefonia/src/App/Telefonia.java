@@ -102,7 +102,11 @@ public class Telefonia {
 			} else {
 				System.out.println("Qual a duracao da chamada?");
 				int inputDuracao = input.nextInt();
-				GregorianCalendar dataChamada = new GregorianCalendar();
+				System.out.print("Qual é o dia? ");
+				int inputDay = input.nextInt();
+				System.out.print("Qual é o mês? ");
+				int inputMonth = input.nextInt() - 1;
+				GregorianCalendar dataChamada = new GregorianCalendar(2023, inputMonth, inputDay);
 				assinantePosPago.fazerChamada(dataChamada, inputDuracao);
 			}
 		}

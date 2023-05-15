@@ -37,8 +37,8 @@ public class PosPago extends Assinante {
 		// fatura
 		for (int i = 0; i < this.numChamadas; i++) {
 
+			System.out.print(chamadas[i].toString());
 			if (chamadas[i].getData().get(Calendar.MONTH) == mes) {// Comparando o mes inserido
-				System.out.print(chamadas[i].toString());
 				valorChamada = chamadas[i].getDuracao() * 1.04f;
 				totalFatura += valorChamada;
 				System.out.println(" Custo: R$ " + String.format("%.2f", valorChamada));
