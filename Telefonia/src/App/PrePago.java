@@ -8,7 +8,7 @@ public class PrePago extends Assinante {
 	private float creditos;
 	private Recarga[] recargas;
 
-	public PrePago(long cpf, String nome, int numero) {
+	public PrePago(long cpf, String nome, long numero) {
 		super(cpf, nome, numero);
 		this.numRecargas = 0;
 		this.recargas = new Recarga[10];//iniciei o array com dez espaços de inicio mas podemos alterar depois

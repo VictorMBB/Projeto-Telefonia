@@ -7,7 +7,7 @@ public class PosPago extends Assinante {
 	// valor fixo
 	private float assinatura;
 
-	public PosPago(long cpf, String nome, int numero, float assinatura) {
+	public PosPago(long cpf, String nome, long numero, float assinatura) {
 
 		super(cpf, nome, numero);
 		this.assinatura = assinatura;
