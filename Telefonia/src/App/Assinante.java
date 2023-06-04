@@ -3,14 +3,13 @@ package App;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
-import java.util.List;
 
 public abstract class Assinante {
 	private long cpf;
 	private String nome;
 	private long numero;
 	protected int numChamadas;
-	protected List<Chamada> chamadas = new ArrayList<>();
+	protected ArrayList<Chamada> chamadas = new ArrayList<>();
 
 	public Assinante(long cpf, String nome, long numero) {
 		this.cpf = cpf;
@@ -43,6 +42,6 @@ public abstract class Assinante {
 
 	public abstract void fazerChamada(GregorianCalendar data, int duracao);
 
-	public abstract void imprimirFatura(int mes);
+	public abstract void imprimirFatura(int mes, int ano);
 
 }

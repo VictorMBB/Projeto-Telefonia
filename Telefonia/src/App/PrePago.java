@@ -2,13 +2,12 @@ package App;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
-import java.util.List;
 
 public class PrePago extends Assinante {
 	
 	private int numRecargas;
 	private float creditos;
-	private List<Recarga> recargas = new ArrayList<>();
+	private ArrayList<Recarga> recargas = new ArrayList<>();
 	
 	public PrePago(long cpf, String nome, long numero) {
 		super(cpf, nome, numero);
@@ -21,13 +20,13 @@ public class PrePago extends Assinante {
 		
 		if(creditos < duracao*1.45f) {
 			
-			System.out.println("Não é possível completar esta ligação!");
+			System.out.println("Não há créditos suficientes para completar esta ligação!");
 		} else {
 			
 			
 			chamadas.add(new Chamada(data,duracao));
 			this.numChamadas += 1;
-			this.creditos -= (float)duracao * 1.45f;
+			this.creditos -= duracao * 1.45f;
 			
 		}
 	}
@@ -41,7 +40,7 @@ public class PrePago extends Assinante {
 	}
 	
 	@Override
-	public void imprimirFatura(int mes) {
+	public void imprimirFatura(int mes, int ano) {
 		
 		float valorChamada;// variável para o valor de cada chamada
 		float totalChamadas = 0; // variável para armazenar o total das chamadas do mês
@@ -52,10 +51,10 @@ public class PrePago extends Assinante {
 		
 		for (Chamada chamada : chamadas) {
 			// verifica se há alguma chamada realizada no mês desejado
-			if (chamada.getData().get(GregorianCalendar.MONTH) == mes) {
+			if (chamada.getData().get(GregorianCalendar.MONTH) == mes && chamada.getData().get(GregorianCalendar.YEAR) == ano) {
 				
 				System.out.print(chamada.toString());//imprime data e duração de cada chamada
-				valorChamada = (float)chamada.getDuracao() * 1.45f;
+				valorChamada = chamada.getDuracao() * 1.45f;
 				System.out.println(" Custo: R$ "+ String.format("%.2f", valorChamada));						
 				totalChamadas += (float)chamada.getDuracao() * 1.45f; 
 				
@@ -69,7 +68,7 @@ public class PrePago extends Assinante {
 		
 		for (Recarga recarga : recargas) {
 			
-			if (recarga.getData().get(GregorianCalendar.MONTH) == mes) {
+			if (recarga.getData().get(GregorianCalendar.MONTH) == mes && recarga.getData().get(GregorianCalendar.YEAR) == ano) {
 				System.out.println(recarga.toString());
 				totalRecargas += recarga.getValor();
 			}

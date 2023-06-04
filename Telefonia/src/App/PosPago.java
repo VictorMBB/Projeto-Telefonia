@@ -4,7 +4,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 public class PosPago extends Assinante {
-	// valor fixo
+	
 	private float assinatura;
 	
 	public PosPago(long cpf, String nome, long numero, float assinatura) {
@@ -13,6 +13,7 @@ public class PosPago extends Assinante {
 		this.assinatura = assinatura;
 	}
 	
+	@Override
 	public void fazerChamada(GregorianCalendar data, int duracao) {
 		
 		chamadas.add(new Chamada(data, duracao));
@@ -20,7 +21,8 @@ public class PosPago extends Assinante {
 		
 	}
 	
-	public void imprimirFatura(int mes) {
+	@Override
+	public void imprimirFatura(int mes, int ano) {
 		float valorChamada, totalFatura = 0;
 		
 		// Imprimindo dados do Assinante
@@ -30,11 +32,11 @@ public class PosPago extends Assinante {
 		// fatura
 		for (Chamada chamada : chamadas) {
 			
-			if (chamada.getData().get(Calendar.MONTH) == mes) {// Comparando o mes inserido
+			if (chamada.getData().get(Calendar.MONTH) == mes && chamada.getData().get(Calendar.YEAR) == ano) {// Comparando o mes e ano inseridos
 				System.out.print(chamada.toString());
 				valorChamada = chamada.getDuracao() * 1.04f;
-				totalFatura += valorChamada;
 				System.out.println(" Custo: R$ " + String.format("%.2f", valorChamada));
+				totalFatura += valorChamada;
 			}
 			
 		}

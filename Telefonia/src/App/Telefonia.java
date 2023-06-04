@@ -5,13 +5,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.List;
 import java.util.Scanner;
 
 public class Telefonia {
 	
-	private static int numAssinantes;
-	private static List<Assinante> assinantes = new ArrayList<>();
+	private int numAssinantes;
+	private ArrayList<Assinante> assinantes = new ArrayList<>();
 	
 	private static Scanner input = new Scanner(System.in);
 	
@@ -136,7 +135,7 @@ public class Telefonia {
 		
 	}
 	
-	private static Assinante localizarAssinante(long cpf) {
+	private Assinante localizarAssinante(long cpf) {
 		for (int i = 0; i < numAssinantes; i++) {
 			if (assinantes.get(i).getCpf() == cpf) {
 				return assinantes.get(i);
@@ -150,13 +149,15 @@ public class Telefonia {
 		
 		System.out.println("Informe o número do mês da fatura");
 		int inputMes = input.nextInt() - 1;// o mês no GregorianCalendar conta a partir de 0
-		
+		System.out.println("Informe o ano da fatura com 4 dígitos");
+		int inputAno = input.nextInt();
+
 		System.out.println("========== PRÉ-PAGOS =================");
 		
 		for (Assinante assinante : assinantes) {
 			
 			if(assinante instanceof PrePago){
-				assinante.imprimirFatura(inputMes);
+				assinante.imprimirFatura(inputMes, inputAno);
 			}
 		}
 		
@@ -164,7 +165,7 @@ public class Telefonia {
 		for (Assinante assinante : assinantes) {
 			
 			if(assinante instanceof PosPago){
-				assinante.imprimirFatura(inputMes);
+				assinante.imprimirFatura(inputMes, inputAno);
 			}
 		}
 		
@@ -256,7 +257,7 @@ public class Telefonia {
 				System.out.print("Digite o CPF: ");
 				long inputCpf = input.nextLong();
 				
-				Assinante assinanteFound = localizarAssinante(inputCpf);
+				Assinante assinanteFound = telefonia.localizarAssinante(inputCpf);
 				
 				if(assinanteFound != null){
 					
@@ -271,7 +272,7 @@ public class Telefonia {
 				System.out.print("Informe o CPF do assinante: ");
 				inputCpf = input.nextLong();
 				
-				assinanteFound = localizarAssinante(inputCpf);
+				assinanteFound = telefonia.localizarAssinante(inputCpf);
 				
 				if(assinanteFound != null) {
 					
